@@ -65,6 +65,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
         }
+        /* Cada sección se oculta o muestra con la clase "active" */
         .content {
             display: none;
             padding: 20px;
@@ -174,7 +175,7 @@
     </header>
     <main>
         <div class="container">
-            <!-- Contenido de Carreras -->
+            <!-- Bloque de Carreras -->
             <div class="content active" id="carreras">
                 <h2>Carreras</h2>
                 <ul>
@@ -189,7 +190,7 @@
                     <li><input type="checkbox" class="checkbox-all"> Todos</li>
                 </ul>
             </div>
-            <!-- Contenido de Filtros -->
+            <!-- Bloque de Filtros -->
             <div class="content" id="filtros">
                 <h2>Filtros</h2>
                 <ul>
@@ -201,15 +202,16 @@
                     <li><input type="checkbox" class="checkbox-all"> Todos</li>
                 </ul>
             </div>
-            <!-- Contenido de Secciones -->
+            <!-- Bloque de Secciones -->
             <div class="content" id="secciones">
                 <h2>Secciones</h2>
                 <ul>
-                    <li><input type="checkbox" class="checkbox-item"> Introduccion</li>
-                    <li><input type="checkbox" class="checkbox-item"> Metodos</li>
-                    <li><input type="checkbox" class="checkbox-item"> Desarrollo</li>
-                    <li><input type="checkbox" class="checkbox-item"> Resultados.</li>
-                    <li><input type="checkbox" class="checkbox-item"> Conclusiones.</li>
+                    <li><input type="checkbox" class="checkbox-item"> Intro</li>
+                    <li><input type="checkbox" class="checkbox-item"> Metod.</li>
+                    <li><input type="checkbox" class="checkbox-item"> Acu.</li>
+                    <li><input type="checkbox" class="checkbox-item"> Desarro.</li>
+                    <li><input type="checkbox" class="checkbox-item"> Resul.</li>
+                    <li><input type="checkbox" class="checkbox-item"> Conclu.</li>
                     <li><input type="checkbox" class="checkbox-all"> Todo doc</li>
                 </ul>
             </div>
@@ -234,43 +236,72 @@
 
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                // Remover la clase active de todas las pestañas y contenidos
                 tabs.forEach(t => t.classList.remove('active'));
                 contents.forEach(content => content.classList.remove('active'));
-                // Activar la pestaña y su contenido correspondiente
                 tab.classList.add('active');
                 document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
             });
         });
 
-        // Cuando se selecciona alguno de los checkboxes en Filtros, se asegura que el contenido se muestre
+        // Funcionalidad para que al marcar "Todos" se seleccionen/deseleccionen todos los checkboxes del mismo grupo
+
+        document.querySelectorAll('.checkbox-all').forEach(todoCheckbox => {
+            todoCheckbox.addEventListener('change', function() {
+                const parentList = this.closest('ul');
+                // Se obtienen los checkboxes individuales del mismo grupo
+                const items = parentList.querySelectorAll('.checkbox-item');
+                items.forEach(item => {
+                    item.checked = this.checked;
+                });
+            });
+        });
+
+        // Actualizar el checkbox "Todos" según los cambios en los individuales
+        document.querySelectorAll('.checkbox-item').forEach(item => {
+            item.addEventListener('change', function() {
+                const parentList = this.closest('ul');
+                const allCheckbox = parentList.querySelector('.checkbox-all');
+                const items = parentList.querySelectorAll('.checkbox-item');
+                let allChecked = true;
+                items.forEach(cb => {
+                    if(!cb.checked) {
+                        allChecked = false;
+                    }
+                });
+                allCheckbox.checked = allChecked;
+            });
+        });
+
+        // Si se marcan checkboxes en Filtros, asegurar que se muestre su contenido y se active la pestaña
         const filterCheckboxes = document.querySelectorAll('#filtros .checkbox-item, #filtros .checkbox-all');
         filterCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 const filtrosContent = document.getElementById('filtros');
                 if (!filtrosContent.classList.contains('active')) {
-                    // Activar el contenido y la pestaña de Filtros
                     filtrosContent.classList.add('active');
                     document.querySelector('.tab[data-tab="filtros"]').classList.add('active');
-                    // Desactivar las otras pestañas
+                    // Desactivar las otras pestañas y contenidos
                     document.querySelector('.tab[data-tab="carreras"]').classList.remove('active');
+                    document.getElementById('carreras').classList.remove('active');
                     document.querySelector('.tab[data-tab="secciones"]').classList.remove('active');
+                    document.getElementById('secciones').classList.remove('active');
                 }
             });
         });
 
-        // Cuando se selecciona alguno de los checkboxes en Secciones, se asegura que el contenido se muestre
+        // Si se marcan checkboxes en Secciones, asegurar que se muestre su contenido y se active la pestaña
         const sectionCheckboxes = document.querySelectorAll('#secciones .checkbox-item, #secciones .checkbox-all');
         sectionCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 const seccionesContent = document.getElementById('secciones');
                 if (!seccionesContent.classList.contains('active')) {
-                    // Activar el contenido y la pestaña de Secciones
                     seccionesContent.classList.add('active');
                     document.querySelector('.tab[data-tab="secciones"]').classList.add('active');
-                    // Desactivar las otras pestañas
+                    // Desactivar las otras pestañas y contenidos
                     document.querySelector('.tab[data-tab="carreras"]').classList.remove('active');
+                    document.getElementById('carreras').classList.remove('active');
                     document.querySelector('.tab[data-tab="filtros"]').classList.remove('active');
+                    document.getElementById('filtros').classList.remove('active');
                 }
             });
         });
