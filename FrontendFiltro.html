@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend con Encabezado Fijo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f0f4f8;
+            overflow-y: auto;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #007BFF;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        header .buttons button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        header .buttons button:hover {
+            background-color: #003d80;
+            transform: scale(1.05);
+        }
+        main {
+            margin-top: 70px; /* Espacio para evitar que el contenido pase por debajo del encabezado */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 50%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .content {
+            display: none;
+            padding: 20px;
+            width: 70%;
+            background-color: #e9f0f5;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .content.active {
+            display: block;
+        }
+        h2 {
+            margin-top: 0;
+            color: #007BFF;
+            text-transform: uppercase;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 2px solid #007BFF;
+            background-color: #007BFF;
+            width: 25%;
+            height: 100%;
+            padding: 10px;
+            border-radius: 0 15px 15px 0;
+        }
+        .tab {
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .tab:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .tab.active {
+            background-color: #0056b3;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .charts-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            margin-top: 20px;
+        }
+        .chart-container {
+            flex: 1;
+            margin: 0 10px;
+            padding: 20px;
+            background-color: #e9f0f5;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #555;
+            font-size: 16px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Filtro de documentos</h1>
+        <div class="buttons">
+            <button>Regresar</button>
+            <button>Inicio</button>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <!-- Contenido de Carreras -->
+            <div class="content active" id="carreras">
+                <h2>Carreras</h2>
+                <ul>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria en Sistemas Computacionales</li>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria Electronica</li>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria en Pesqueria</li>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria en Bioquimica</li>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria en Gestion Empresarial</li>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria Industrial</li>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria Mecanica</li>
+                    <li><input type="checkbox" class="checkbox-item"> Ingenieria Naval</li>
+                    <li><input type="checkbox" class="checkbox-all"> Todos</li>
+                </ul>
+            </div>
+            <!-- Contenido de Filtros -->
+            <div class="content" id="filtros">
+                <h2>Filtros</h2>
+                <ul>
+                    <li><input type="checkbox" class="checkbox-item"> #Palabras</li>
+                    <li><input type="checkbox" class="checkbox-item"> Palabras asociadas</li>
+                    <li><input type="checkbox" class="checkbox-item"> Palabras distintas</li>
+                    <li><input type="checkbox" class="checkbox-item"> Conectores (y, además, en, ni)</li>
+                    <li><input type="checkbox" class="checkbox-item"> Palabras comunes entre autores</li>
+                    <li><input type="checkbox" class="checkbox-all"> Todos</li>
+                </ul>
+            </div>
+            <!-- Contenido de Secciones -->
+            <div class="content" id="secciones">
+                <h2>Secciones</h2>
+                <ul>
+                    <li><input type="checkbox" class="checkbox-item"> Introduccion</li>
+                    <li><input type="checkbox" class="checkbox-item"> Metodos</li>
+                    <li><input type="checkbox" class="checkbox-item"> Desarrollo</li>
+                    <li><input type="checkbox" class="checkbox-item"> Resultados.</li>
+                    <li><input type="checkbox" class="checkbox-item"> Conclusiones.</li>
+                    <li><input type="checkbox" class="checkbox-all"> Todo doc</li>
+                </ul>
+            </div>
+            <!-- Pestañas laterales -->
+            <div class="tabs">
+                <div class="tab active" data-tab="carreras">Carreras</div>
+                <div class="tab" data-tab="filtros">Filtros</div>
+                <div class="tab" data-tab="secciones">Secciones</div>
+            </div>
+        </div>
+        <button id="analyze-btn">Analizar</button>
+        <div class="charts-wrapper">
+            <div class="chart-container">Espacio para gráfica 1</div>
+            <div class="chart-container">Espacio para gráfica 2</div>
+            <div class="chart-container">Espacio para gráfica 3</div>
+        </div>
+    </main>
+    <script>
+        // Manejo de pestañas: al hacer click se activa la pestaña correspondiente y se muestra su contenido
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remover la clase active de todas las pestañas y contenidos
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(content => content.classList.remove('active'));
+                // Activar la pestaña y su contenido correspondiente
+                tab.classList.add('active');
+                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+
+        // Cuando se selecciona alguno de los checkboxes en Filtros, se asegura que el contenido se muestre
+        const filterCheckboxes = document.querySelectorAll('#filtros .checkbox-item, #filtros .checkbox-all');
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const filtrosContent = document.getElementById('filtros');
+                if (!filtrosContent.classList.contains('active')) {
+                    // Activar el contenido y la pestaña de Filtros
+                    filtrosContent.classList.add('active');
+                    document.querySelector('.tab[data-tab="filtros"]').classList.add('active');
+                    // Desactivar las otras pestañas
+                    document.querySelector('.tab[data-tab="carreras"]').classList.remove('active');
+                    document.querySelector('.tab[data-tab="secciones"]').classList.remove('active');
+                }
+            });
+        });
+
+        // Cuando se selecciona alguno de los checkboxes en Secciones, se asegura que el contenido se muestre
+        const sectionCheckboxes = document.querySelectorAll('#secciones .checkbox-item, #secciones .checkbox-all');
+        sectionCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const seccionesContent = document.getElementById('secciones');
+                if (!seccionesContent.classList.contains('active')) {
+                    // Activar el contenido y la pestaña de Secciones
+                    seccionesContent.classList.add('active');
+                    document.querySelector('.tab[data-tab="secciones"]').classList.add('active');
+                    // Desactivar las otras pestañas
+                    document.querySelector('.tab[data-tab="carreras"]').classList.remove('active');
+                    document.querySelector('.tab[data-tab="filtros"]').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
